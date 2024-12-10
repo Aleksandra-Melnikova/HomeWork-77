@@ -1,15 +1,15 @@
 import { promises as fs } from 'fs';
 import crypto from 'crypto';
-import {Message ,MessageWithoutIdAdnDate} from "./types";
+import {Entry, EntryWithoutId,} from "./types";
 
 const fileName = './db.json';
-let data: Message[] = [];
+let data: Entry[] = [];
 
 const fileDb = {
     async init() {
         try {
             const fileContents = await fs.readFile(fileName);
-            data = await JSON.parse(fileContents.toString()) as Message[];
+            data = await JSON.parse(fileContents.toString()) as Entry[];
         } catch (e) {
             data = [];
         }
@@ -17,13 +17,12 @@ const fileDb = {
     async getItems() {
         return data;
     },
-    async addItem(item: MessageWithoutIdAdnDate) {
+    async addItem(item: EntryWithoutId ) {
         const id = crypto.randomUUID();
-        const datetime = new Date().toISOString();
-        const message = {id, datetime, ...item};
-        data.push(message);
+        const entry = {id, ...item};
+        data.push(entry);
         await this.save();
-        return message;
+        return entry;
     },
     async save() {
         return fs.writeFile(fileName, JSON.stringify(data));

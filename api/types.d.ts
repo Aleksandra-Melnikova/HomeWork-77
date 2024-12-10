@@ -1,11 +1,12 @@
-export interface Message{
+export interface Entry{
     message: string;
     author: string;
     id: string;
-    datetime: string;
+    image: string | null
 }
 
-export interface  MessageWithoutIdAdnDate {
+export interface  EntryWithoutId {
     message:string,
-    author:string
+    author:string,
+    image: string | null,
 }
